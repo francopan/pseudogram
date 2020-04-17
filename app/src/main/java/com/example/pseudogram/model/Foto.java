@@ -12,10 +12,10 @@ public class Foto {
     public Foto() {
     }
 
-    public Foto(String titulo, String descricao, String preco) {
+    public Foto(String titulo, String descricao, String path) {
         this.titulo = titulo;
         this.descricao = descricao;
-        this.path = preco;
+        this.path = path;
     }
 
     public Integer getId() {
