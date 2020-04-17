@@ -1,4 +1,4 @@
-package com.example.pseudogram.Camera;
+package com.example.pseudogram.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;

@@ -1,11 +1,10 @@
-package com.example.pseudogram;
+package com.example.pseudogram.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.pseudogram.Camera.Camera;
+import com.example.pseudogram.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
