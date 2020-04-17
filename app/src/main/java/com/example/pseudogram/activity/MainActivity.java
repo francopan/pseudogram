@@ -1,7 +1,8 @@
-package com.example.pseudogram;
+package com.example.pseudogram.activity;
 
 import android.os.Bundle;
 
+import com.example.pseudogram.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
