@@ -27,7 +27,7 @@ public class FotoRecyclerViewAdapter extends RecyclerView.Adapter<FotoRecyclerVi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_list_foto, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_list_picture, viewGroup, false);
         return new ViewHolder(view);
     }
 
