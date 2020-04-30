@@ -12,7 +12,7 @@ import android.widget.ImageView;
 
 import com.example.pseudogram.R;
 
-public class Camera extends AppCompatActivity {
+public class CameraActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
