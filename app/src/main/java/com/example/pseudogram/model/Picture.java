@@ -5,16 +5,16 @@ import java.util.Objects;
 public class Picture {
 
     private Integer id;
-    private String titulo;
-    private String descricao;
+    private String title;
+    private String description;
     private String path;
 
     public Picture() {
     }
 
-    public Picture(String titulo, String descricao, String path) {
-        this.titulo = titulo;
-        this.descricao = descricao;
+    public Picture(String title, String description, String path) {
+        this.title = title;
+        this.description = description;
         this.path = path;
     }
 
@@ -26,20 +26,20 @@ public class Picture {
         this.id = id;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getPath() {

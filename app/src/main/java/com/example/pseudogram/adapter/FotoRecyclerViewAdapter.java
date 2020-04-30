@@ -57,8 +57,8 @@ public class FotoRecyclerViewAdapter extends RecyclerView.Adapter<FotoRecyclerVi
         }
 
         private void setData(Picture picture) {
-            tvTitulo.setText(picture.getTitulo());
-            tvDescricao.setText(picture.getDescricao());
+            tvTitulo.setText(picture.getTitle());
+            tvDescricao.setText(picture.getDescription());
             tvPath.setText(picture.getPath());
         }
         public void onClick(View view) {
