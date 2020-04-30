@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.pseudogram.model.Foto;
+import com.example.pseudogram.model.Picture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,20 +45,20 @@ public class FotoDao extends SQLiteOpenHelper {
 //    ---------------------------------------------------------------
 //    crud
 
-    public Foto insert(Foto foto) {
+    public Picture insert(Picture picture) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(TABELA_CAMPO_TITULO, foto.getTitulo());
-        values.put(TABELA_CAMPO_DESCRICAO, foto.getDescricao());
-        values.put(TABELA_CAMPO_PATH, foto.getPath());
+        values.put(TABELA_CAMPO_TITULO, picture.getTitulo());
+        values.put(TABELA_CAMPO_DESCRICAO, picture.getDescricao());
+        values.put(TABELA_CAMPO_PATH, picture.getPath());
         db.insert(TABELA_NAME, null, values);
 
         db.close();
-        return foto;
+        return picture;
     }
 
-    public Foto get(Integer id) {
+    public Picture get(Integer id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABELA_NAME, // a. tabela
                 COLUNAS, // b. colunas
@@ -72,15 +72,15 @@ public class FotoDao extends SQLiteOpenHelper {
             return null;
         } else {
             cursor.moveToFirst();
-            Foto foto = mapTo(cursor);
+            Picture picture = mapTo(cursor);
             db.close();
 
-            return foto;
+            return picture;
         }
     }
 
-    public List<Foto> getAll() {
-        List<Foto> data = new ArrayList<>();
+    public List<Picture> getAll() {
+        List<Picture> data = new ArrayList<>();
         String query = "SELECT * FROM " + TABELA_NAME + " ORDER BY " + TABELA_CAMPO_TITULO;
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -95,37 +95,37 @@ public class FotoDao extends SQLiteOpenHelper {
         return data;
     }
 
-    public void update(Foto foto) {
+    public void update(Picture picture) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(TABELA_CAMPO_TITULO, foto.getTitulo());
-        values.put(TABELA_CAMPO_DESCRICAO, foto.getDescricao());
-        values.put(TABELA_CAMPO_PATH, foto.getPath());
+        values.put(TABELA_CAMPO_TITULO, picture.getTitulo());
+        values.put(TABELA_CAMPO_DESCRICAO, picture.getDescricao());
+        values.put(TABELA_CAMPO_PATH, picture.getPath());
         int i = db.update(TABELA_NAME, //tabela
                 values, // valores
                 TABELA_CAMPO_ID +" = ?", // colunas para comparar
-                new String[] { foto.getId().toString() }); //parâmetros
+                new String[] { picture.getId().toString() }); //parâmetros
         db.close();
     }
 
-    public void delete(Foto foto) {
+    public void delete(Picture picture) {
         SQLiteDatabase db = this.getWritableDatabase();
         int i = db.delete(TABELA_NAME, //tabela
                 TABELA_CAMPO_ID +" = ?", // colunas para comparar
-                new String[] { foto.getId().toString() });
+                new String[] { picture.getId().toString() });
         db.close();
     }
 
 //    -----------------------------------------------------------
 //    populate
 
-    private Foto mapTo(Cursor cursor) {
-        Foto foto = new Foto();
-        foto.setId(cursor.getInt(0));
-        foto.setTitulo(cursor.getString(1));
-        foto.setDescricao(cursor.getString(2));
-        foto.setPath(cursor.getString(3));
-        return foto;
+    private Picture mapTo(Cursor cursor) {
+        Picture picture = new Picture();
+        picture.setId(cursor.getInt(0));
+        picture.setTitulo(cursor.getString(1));
+        picture.setDescricao(cursor.getString(2));
+        picture.setPath(cursor.getString(3));
+        return picture;
     }
 
 }

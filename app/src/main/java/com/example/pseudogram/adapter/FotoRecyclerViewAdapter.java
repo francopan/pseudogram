@@ -9,17 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pseudogram.R;
-import com.example.pseudogram.model.Foto;
+import com.example.pseudogram.model.Picture;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 public class FotoRecyclerViewAdapter extends RecyclerView.Adapter<FotoRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Foto> elementos;
-    private final Consumer<Foto> onSelect;
+    private final List<Picture> elementos;
+    private final Consumer<Picture> onSelect;
 
-    public FotoRecyclerViewAdapter(List<Foto> elementos, Consumer<Foto> onSelect) {
+    public FotoRecyclerViewAdapter(List<Picture> elementos, Consumer<Picture> onSelect) {
         this.elementos = elementos;
         this.onSelect = onSelect;
     }
@@ -56,10 +56,10 @@ public class FotoRecyclerViewAdapter extends RecyclerView.Adapter<FotoRecyclerVi
             tvPath = itemView.findViewById(R.id.txtPath);
         }
 
-        private void setData(Foto foto) {
-            tvTitulo.setText(foto.getTitulo());
-            tvDescricao.setText(foto.getDescricao());
-            tvPath.setText(foto.getPath());
+        private void setData(Picture picture) {
+            tvTitulo.setText(picture.getTitulo());
+            tvDescricao.setText(picture.getDescricao());
+            tvPath.setText(picture.getPath());
         }
         public void onClick(View view) {
 //            Toast.makeText(view.getContext(), "Você selecionou "

@@ -2,17 +2,17 @@ package com.example.pseudogram.model;
 
 import java.util.Objects;
 
-public class Foto {
+public class Picture {
 
     private Integer id;
     private String titulo;
     private String descricao;
     private String path;
 
-    public Foto() {
+    public Picture() {
     }
 
-    public Foto(String titulo, String descricao, String path) {
+    public Picture(String titulo, String descricao, String path) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.path = path;
@@ -54,8 +54,8 @@ public class Foto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Foto foto = (Foto) o;
-        return id == foto.id;
+        Picture picture = (Picture) o;
+        return id == picture.id;
     }
 
     @Override

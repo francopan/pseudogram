@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pseudogram.R;
-import com.example.pseudogram.adapter.RecyclerViewAdapter;
+import com.example.pseudogram.adapter.PictureListRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,7 @@ public class MainFragment extends Fragment {
         // 3. Get Images
         this.initImageBitmaps();
         // 4. Create and  set an adapter
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mNames, mImageUrls, this.getContext());
+        PictureListRecyclerViewAdapter adapter = new PictureListRecyclerViewAdapter(mNames, mImageUrls, this.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         // 5. set item animator to DefaultAnimator

@@ -15,20 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.pseudogram.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+public class PictureListRecyclerViewAdapter extends RecyclerView.Adapter<PictureListRecyclerViewAdapter.ViewHolder>{
 
     private static final String TAG = "RecyclerViewAdapter";
     private ArrayList<String> mImageNames = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
     private Context mContext;
 
-    public  RecyclerViewAdapter(ArrayList<String> imageNames, ArrayList<String> images, Context context) {
+    public PictureListRecyclerViewAdapter(ArrayList<String> imageNames, ArrayList<String> images, Context context) {
         mImageNames = imageNames;
         mImages = images;
         mContext = context;
