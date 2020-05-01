@@ -43,7 +43,7 @@ public class MainFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         this.initImageBitmaps();
         // 4. Create and  set an adapter
-        PictureListRecyclerViewAdapter adapter = new PictureListRecyclerViewAdapter(mNames, mImageUrls, this.getContext());
+        PictureListRecyclerViewAdapter adapter = new PictureListRecyclerViewAdapter(pictures, this.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         // 5. set item animator to DefaultAnimator

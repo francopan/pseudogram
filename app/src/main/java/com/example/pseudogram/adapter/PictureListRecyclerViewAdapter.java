@@ -14,21 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.pseudogram.R;
+import com.example.pseudogram.model.Picture;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PictureListRecyclerViewAdapter extends RecyclerView.Adapter<PictureListRecyclerViewAdapter.ViewHolder>{
 
     private static final String TAG = "RecyclerViewAdapter";
-    private ArrayList<String> mImageNames = new ArrayList<>();
-    private ArrayList<String> mImages = new ArrayList<>();
     private Context mContext;
+    private List<Picture> pictures;
 
-    public PictureListRecyclerViewAdapter(ArrayList<String> imageNames, ArrayList<String> images, Context context) {
-        mImageNames = imageNames;
-        mImages = images;
+    public PictureListRecyclerViewAdapter(List<Picture> pictures, Context context) {
+        this.pictures = pictures;
         mContext = context;
     }
 
@@ -43,20 +43,20 @@ public class PictureListRecyclerViewAdapter extends RecyclerView.Adapter<Picture
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Log.d(TAG, "onbBindViewerHolder: called");
-        Glide.with(mContext).asBitmap().load(mImages.get(position)).into(holder.image);
-        holder.imageName.setText(mImageNames.get(position));
+        Glide.with(mContext).asBitmap().load(pictures.get(position).getPath()).into(holder.image);
+        holder.imageName.setText(pictures.get(position).getTitle());
         holder.parentLayout.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: clicked on: " + mImageNames.get(position));
-                Toast.makeText(mContext,mImageNames.get(position), Toast.LENGTH_SHORT).show();
+//                Log.d(TAG, "onClick: clicked on: " + mImageNames.get(position));
+//                Toast.makeText(mContext,mImageNames.get(position), Toast.LENGTH_SHORT).show();
             }
         }));
     }
 
     @Override
     public int getItemCount() {
-        return mImageNames.size();
+        return pictures.size();
     }
 
     // Holds the Widgets (images) in memory. It's "holding" in the view.
