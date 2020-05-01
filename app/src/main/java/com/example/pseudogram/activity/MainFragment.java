@@ -26,10 +26,6 @@ public class MainFragment extends Fragment {
     private PictureDao pictureDao;
     private List<Picture> pictures;
 
-    private ArrayList<String> mNames = new ArrayList<>();
-    private ArrayList<String> mImageUrls = new ArrayList<>();
-
-
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -41,12 +37,9 @@ public class MainFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.initImageBitmaps();
-        // 4. Create and  set an adapter
         PictureListRecyclerViewAdapter adapter = new PictureListRecyclerViewAdapter(pictures, this.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        // 5. set item animator to DefaultAnimator
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         return rootView;
     }
@@ -56,12 +49,6 @@ public class MainFragment extends Fragment {
 
     }
 
-    private void initImageBitmaps(){
-       for (Picture picture: this.pictures) {
-           this.mNames.add(picture.getTitle());
-           this.mImageUrls.add(picture.getPath());
-       }
 
-    }
 
 }

@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import com.example.pseudogram.R;
 import com.example.pseudogram.model.Picture;
 import com.example.pseudogram.repository.PictureDao;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
 import java.io.FileOutputStream;
