@@ -1,6 +1,7 @@
 package com.example.pseudogram.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.pseudogram.R;
+import com.example.pseudogram.activity.EditPictureActivity;
 import com.example.pseudogram.model.Picture;
 
 import java.util.ArrayList;
@@ -48,8 +50,9 @@ public class PictureListRecyclerViewAdapter extends RecyclerView.Adapter<Picture
         holder.parentLayout.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Log.d(TAG, "onClick: clicked on: " + mImageNames.get(position));
-//                Toast.makeText(mContext,mImageNames.get(position), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, EditPictureActivity.class);
+                intent.putExtra("EXTRA_PICTURE", pictures.get(position));
+                mContext.startActivity(intent);
             }
         }));
     }

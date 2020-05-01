@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -21,14 +22,19 @@ import java.util.UUID;
 
 public class EditPictureActivity extends AppCompatActivity {
 
+    // View Variables
     private ImageView imageView;
     private TextView title;
     private TextView description;
     private Bitmap bitmap;
 
+    // Object Variables
+    private Picture currentPicture;
+
     private PictureDao pictureDao;
 
     private static final int REQUEST_IMAGE_CAPTURE = 101;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,16 @@ public class EditPictureActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
         description = findViewById(R.id.description);
         pictureDao = new PictureDao(getApplicationContext());
+
+        currentPicture = (Picture) getIntent().getSerializableExtra("EXTRA_PICTURE");
+        if (currentPicture == null || currentPicture.getId() == null) {
+            this.currentPicture = new Picture();
+        } else {
+            title.setText(currentPicture.getTitle());
+            description.setText((currentPicture.getDescription()));
+            this.bitmap = BitmapFactory.decodeFile(currentPicture.getPath());
+            imageView.setImageBitmap(this.bitmap);
+        }
     }
 
     public void takePicture(View view) {
@@ -48,28 +64,35 @@ public class EditPictureActivity extends AppCompatActivity {
     }
 
     public void save(View view) {
-        Picture newPicture = new Picture();
-        newPicture.setTitle(this.title.getText().toString());
-        newPicture.setDescription(this.description.getText().toString());
+        currentPicture.setTitle(this.title.getText().toString());
+        currentPicture.setDescription(this.description.getText().toString());
 
-        try {
-            // Save Picture File into local Directory
-            newPicture.setPath(this.saveFile(this.bitmap, UUID.randomUUID().toString() + ".jpg"));
-            // Save Picture data into Database
-            if (newPicture.getId() == null) {
-                pictureDao.insert(newPicture);
-            } else {
-                pictureDao.update(newPicture);
+        try { // Save Picture data into Database
+            if (currentPicture.getId() == null) { // New Picture
+                currentPicture.setPath(this.savePictureFile(this.bitmap, UUID.randomUUID().toString() + ".jpg")); // Save Picture File into local Directory
+                pictureDao.insert(currentPicture);
+            } else { // Already Existent Picture
+                this.deletePictureFile(currentPicture.getPath()); // Deletes Previous Image
+                currentPicture.setPath(this.savePictureFile(this.bitmap, UUID.randomUUID().toString() + ".jpg")); // Save Picture File into local Directory
+                pictureDao.update(currentPicture);
             }
             Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             System.out.println(e);
             Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
         }
-
+        finish();
     }
 
-    private String saveFile(Bitmap imageToSave, String fileName) {
+    public void delete(View view) {
+        this.deletePictureFile(this.currentPicture.getPath());
+        pictureDao.delete(this.currentPicture);
+
+        finish();
+    }
+
+
+    private String savePictureFile(Bitmap imageToSave, String fileName) {
 
         File file = new File(this.getApplicationContext().getFilesDir(), fileName);
         if (file.exists()) {
@@ -87,6 +110,15 @@ public class EditPictureActivity extends AppCompatActivity {
         return file.getAbsolutePath();
     }
 
+    private Boolean deletePictureFile(String filePath) {
+        File file = new File(this.getApplicationContext().getFilesDir(), filePath);
+        if (file.exists()) {
+            file.delete();
+            return true;
+        }
+        return false;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -95,8 +127,5 @@ public class EditPictureActivity extends AppCompatActivity {
             this.bitmap = (Bitmap) extras.get("data");
             imageView.setImageBitmap(this.bitmap);
         }
-
-//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_CANCELED)
-//            finish();
     }
 }

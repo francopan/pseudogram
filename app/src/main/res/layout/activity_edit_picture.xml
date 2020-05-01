@@ -60,6 +60,7 @@ tools:context=".activity.EditPictureActivity">
     android:layout_toRightOf="@+id/btnAlterar"
     android:layout_marginTop="400dp"
     android:layout_weight="1"
+    android:onClick="delete"
     android:text="Delete"/>
 
 
