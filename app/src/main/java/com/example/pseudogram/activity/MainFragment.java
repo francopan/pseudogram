@@ -37,7 +37,8 @@ public class MainFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        PictureListRecyclerViewAdapter adapter = new PictureListRecyclerViewAdapter(pictures, this.getContext());
+        PictureListRecyclerViewAdapter adapter = new PictureListRecyclerViewAdapter(pictures,
+                this.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());

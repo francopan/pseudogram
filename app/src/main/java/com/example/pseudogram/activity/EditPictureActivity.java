@@ -30,9 +30,9 @@ public class EditPictureActivity extends AppCompatActivity {
 
     // Object Variables
     private Picture currentPicture;
-
     private PictureDao pictureDao;
 
+    // Value to request image capture
     private static final int REQUEST_IMAGE_CAPTURE = 101;
 
 
@@ -69,11 +69,13 @@ public class EditPictureActivity extends AppCompatActivity {
 
         try { // Save Picture data into Database
             if (currentPicture.getId() == null) { // New Picture
-                currentPicture.setPath(this.savePictureFile(this.bitmap, UUID.randomUUID().toString() + ".jpg")); // Save Picture File into local Directory
+                currentPicture.setPath(this.savePictureFile(this.bitmap, UUID.randomUUID()
+                        .toString() + ".jpg")); // Save Picture File into local Directory
                 pictureDao.insert(currentPicture);
             } else { // Already Existent Picture
                 this.deletePictureFile(currentPicture.getPath()); // Deletes Previous Image
-                currentPicture.setPath(this.savePictureFile(this.bitmap, UUID.randomUUID().toString() + ".jpg")); // Save Picture File into local Directory
+                currentPicture.setPath(this.savePictureFile(this.bitmap, UUID.randomUUID()
+                        .toString() + ".jpg")); // Save Picture File into local Directory
                 pictureDao.update(currentPicture);
             }
             Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
@@ -87,13 +89,11 @@ public class EditPictureActivity extends AppCompatActivity {
     public void delete(View view) {
         this.deletePictureFile(this.currentPicture.getPath());
         pictureDao.delete(this.currentPicture);
-
         finish();
     }
 
 
     private String savePictureFile(Bitmap imageToSave, String fileName) {
-
         File file = new File(this.getApplicationContext().getFilesDir(), fileName);
         if (file.exists()) {
             file.delete();
@@ -106,7 +106,6 @@ public class EditPictureActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return file.getAbsolutePath();
     }
 
