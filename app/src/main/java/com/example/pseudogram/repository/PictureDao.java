@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PictureDao extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION               = 1;
+    private static final int DATABASE_VERSION               = 2;
     private static final String DATABASE_NAME               = "PseudogramDB";
     private static final String TABLE_NAME                  = "picture";
     private static final String TABLE_ID_FIELD              = "id";
@@ -30,8 +30,8 @@ public class PictureDao extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE = "CREATE TABLE picture ("+
                 "id INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                "titulo TEXT,"+
-                "descricao TEXT,"+
+                "title TEXT,"+
+                "description TEXT,"+
                 "path TEXT)";
         db.execSQL(CREATE_TABLE);
     }
@@ -60,10 +60,10 @@ public class PictureDao extends SQLiteOpenHelper {
 
     public Picture get(Integer id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, // a. tabela
-                COLUMNS, // b. colunas
-                " id = ?", // c. colunas para comparar
-                new String[] { String.valueOf(id) }, // d. parâmetros
+        Cursor cursor = db.query(TABLE_NAME, // a. table
+                COLUMNS, // b. columns
+                " id = ?", // c. columns to compare
+                new String[] { String.valueOf(id) }, // d. parameters
                 null, // e. group by
                 null, // f. having
                 null, // g. order by

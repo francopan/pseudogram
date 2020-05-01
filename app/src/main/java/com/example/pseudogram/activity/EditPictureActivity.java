@@ -10,9 +10,11 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pseudogram.R;
 import com.example.pseudogram.model.Picture;
+import com.example.pseudogram.repository.PictureDao;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
@@ -26,6 +28,8 @@ public class EditPictureActivity extends AppCompatActivity {
     private TextView description;
     private Bitmap bitmap;
 
+    private PictureDao pictureDao;
+
     private static final int REQUEST_IMAGE_CAPTURE = 101;
 
     @Override
@@ -35,6 +39,7 @@ public class EditPictureActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         title = findViewById(R.id.title);
         description = findViewById(R.id.description);
+        pictureDao = new PictureDao(getApplicationContext());
     }
 
     public void takePicture(View view) {
@@ -49,14 +54,24 @@ public class EditPictureActivity extends AppCompatActivity {
         newPicture.setTitle(this.title.getText().toString());
         newPicture.setDescription(this.description.getText().toString());
 
-        // Salvar imagem no diretorio
-        this.saveFile(this.bitmap, UUID.randomUUID().toString() + ".jpg");
-
-        // Chamar o DAO e Salvar
+        try {
+            // Save Picture File into local Directory
+            newPicture.setPath(this.saveFile(this.bitmap, UUID.randomUUID().toString() + ".jpg"));
+            // Save Picture data into Database
+            if (newPicture.getId() == null) {
+                pictureDao.insert(newPicture);
+            } else {
+                pictureDao.update(newPicture);
+            }
+            Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            System.out.println(e);
+            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
-    private void saveFile(Bitmap imageToSave, String fileName) {
+    private String saveFile(Bitmap imageToSave, String fileName) {
 
         File file = new File(this.getApplicationContext().getFilesDir(), fileName);
         if (file.exists()) {
@@ -70,6 +85,8 @@ public class EditPictureActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return file.getAbsolutePath();
     }
 
     @Override
