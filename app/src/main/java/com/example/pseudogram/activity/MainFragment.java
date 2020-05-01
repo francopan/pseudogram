@@ -14,12 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pseudogram.R;
 import com.example.pseudogram.adapter.PictureListRecyclerViewAdapter;
+import com.example.pseudogram.model.Picture;
+import com.example.pseudogram.repository.PictureDao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainFragment extends Fragment {
 
     private static final String TAG = "FirstFragment";
+    private PictureDao pictureDao;
+    private List<Picture> pictures;
+
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
 
@@ -29,13 +35,12 @@ public class MainFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        Log.d(TAG, "initRecyclerView: init recycler_view");
+        pictureDao = new PictureDao(getContext());
+        pictures = pictureDao.getAll();
+
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        // 1. get a reference to recyclerView
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        // 2. set layoutManger
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        // 3. Get Images
         this.initImageBitmaps();
         // 4. Create and  set an adapter
         PictureListRecyclerViewAdapter adapter = new PictureListRecyclerViewAdapter(mNames, mImageUrls, this.getContext());
@@ -52,31 +57,10 @@ public class MainFragment extends Fragment {
     }
 
     private void initImageBitmaps(){
-        Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
-
-        mImageUrls.add("https://i.redd.it/tpsnoz5bzo501.jpg");
-        mNames.add("Trondheim");
-
-        mImageUrls.add("https://i.redd.it/qn7f9oqu7o501.jpg");
-        mNames.add("Portugal");
-
-        mImageUrls.add("https://i.redd.it/j6myfqglup501.jpg");
-        mNames.add("Rocky Mountain National Park");
-
-        mImageUrls.add("https://i.redd.it/0h2gm1ix6p501.jpg");
-        mNames.add("Mahahual");
-
-        mImageUrls.add("https://i.redd.it/k98uzl68eh501.jpg");
-        mNames.add("Frozen Lake");
-
-        mImageUrls.add("https://i.redd.it/glin0nwndo501.jpg");
-        mNames.add("White Sands Desert");
-
-        mImageUrls.add("https://i.redd.it/obx4zydshg601.jpg");
-        mNames.add("Austrailia");
-
-        mImageUrls.add("https://i.imgur.com/ZcLLrkY.jpg");
-        mNames.add("Washington");
+       for (Picture picture: this.pictures) {
+           this.mNames.add(picture.getTitle());
+           this.mImageUrls.add(picture.getPath());
+       }
 
     }
 
