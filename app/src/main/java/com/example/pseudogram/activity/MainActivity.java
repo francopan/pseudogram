@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToCamera(View view) {
-        Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+        Intent intent = new Intent(MainActivity.this, EditPictureActivity.class);
         startActivity(intent);
     }
 }

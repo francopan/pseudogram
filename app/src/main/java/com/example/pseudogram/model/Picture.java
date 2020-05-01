@@ -1,8 +1,13 @@
 package com.example.pseudogram.model;
 
+import android.graphics.Bitmap;
+
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Picture {
+public class Picture implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Integer id;
     private String title;
