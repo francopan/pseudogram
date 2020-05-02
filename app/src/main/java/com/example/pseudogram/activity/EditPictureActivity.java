@@ -68,6 +68,16 @@ public class EditPictureActivity extends AppCompatActivity {
         currentPicture.setDescription(this.description.getText().toString());
 
         try { // Save Picture data into Database
+
+            if ((currentPicture.getTitle() == null || currentPicture.getTitle().equals("") ||
+                    currentPicture.getTitle().isEmpty()) ||
+                    (currentPicture.getDescription() == null || currentPicture.getDescription().equals("") ||
+                    currentPicture.getDescription().isEmpty())) {
+                Toast.makeText(getApplicationContext(), "Cannot Save without title or description",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (currentPicture.getId() == null) { // New Picture
                 currentPicture.setPath(this.savePictureFile(this.bitmap, UUID.randomUUID()
                         .toString() + ".jpg")); // Save Picture File into local Directory
@@ -106,16 +116,12 @@ public class EditPictureActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return file.getAbsolutePath();
+        return file.getPath();
     }
 
-    private Boolean deletePictureFile(String filePath) {
+    private void deletePictureFile(String filePath) {
         File file = new File(this.getApplicationContext().getFilesDir(), filePath);
-        if (file.exists()) {
-            file.delete();
-            return true;
-        }
-        return false;
+        file.delete();
     }
 
     @Override
