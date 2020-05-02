@@ -16,6 +16,7 @@ import com.example.pseudogram.adapter.PictureListRecyclerViewAdapter;
 import com.example.pseudogram.model.Picture;
 import com.example.pseudogram.repository.PictureDao;
 
+import java.util.Collections;
 import java.util.List;
 
 public class MainFragment extends Fragment {
@@ -24,39 +25,28 @@ public class MainFragment extends Fragment {
     private PictureDao pictureDao;
     private List<Picture> pictures;
 
-    @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
+    private RecyclerView recyclerView;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         pictureDao = new PictureDao(getContext());
-        pictures = pictureDao.getAll();
+        pictures = Collections.emptyList();
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        PictureListRecyclerViewAdapter adapter = new PictureListRecyclerViewAdapter(pictures,
-                this.getContext());
-        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         return rootView;
     }
 
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    @Override
+    public void onStart() {
+        super.onStart();
 
+        pictures = pictureDao.getAll();
+        recyclerView.setAdapter(new PictureListRecyclerViewAdapter(pictures, this.getContext()));
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        pictures = pictureDao.getAll();
-//    }
-
-
-
-
 
 }
