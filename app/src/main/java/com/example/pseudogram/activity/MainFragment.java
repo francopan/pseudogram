@@ -1,7 +1,6 @@
 package com.example.pseudogram.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import com.example.pseudogram.adapter.PictureListRecyclerViewAdapter;
 import com.example.pseudogram.model.Picture;
 import com.example.pseudogram.repository.PictureDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragment extends Fragment {
@@ -31,6 +29,7 @@ public class MainFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
+
         pictureDao = new PictureDao(getContext());
         pictures = pictureDao.getAll();
 
@@ -49,6 +48,14 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        pictures = pictureDao.getAll();
+//    }
+
+
 
 
 

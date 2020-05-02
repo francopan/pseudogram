@@ -8,10 +8,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,4 +56,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, EditPictureActivity.class);
         startActivity(intent);
     }
+
+//    @Override
+//    public void onRestart() {
+//        super.onRestart();
+//        Fragment frg = null;
+//        frg = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+//    }
 }
