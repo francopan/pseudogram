@@ -44,9 +44,9 @@ public class PictureListRecyclerViewAdapter extends RecyclerView.Adapter<Picture
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        Log.d(TAG, "onbBindViewerHolder: called");
-        Glide.with(mContext).asBitmap().load(pictures.get(position).getPath()).into(holder.image);
-        holder.imageName.setText(pictures.get(position).getTitle());
+        String title = pictures.get(position).getTitle();
+        title = (title != null && !title.isEmpty()) ? pictures.get(position).getTitle() : pictures.get(position).getPath();
+        holder.imageName.setText((title.length() > 20)? title.substring(0,20) + "..." : title);
         holder.parentLayout.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,20 +55,26 @@ public class PictureListRecyclerViewAdapter extends RecyclerView.Adapter<Picture
                 mContext.startActivity(intent);
             }
         }));
+        Glide.with(mContext).asBitmap().load(pictures.get(position).getPath()).into(holder.image);
     }
 
+    /**
+     * Returns the size of the list of pictures being displayed
+     * @return
+     */
     @Override
     public int getItemCount() {
         return pictures.size();
     }
 
-    // Holds the Widgets (images) in memory. It's "holding" in the view.
-    public class ViewHolder extends RecyclerView.ViewHolder{
 
+    /**
+     * Holds the Widgets (images) in memory. It's "holding" in the view.
+     */
+    public class ViewHolder extends RecyclerView.ViewHolder{
         CircleImageView image;
         TextView imageName;
         RelativeLayout parentLayout;
-
         public ViewHolder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);

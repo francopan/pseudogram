@@ -1,7 +1,10 @@
 package com.example.pseudogram.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,10 +36,12 @@ public class EditPictureActivity extends AppCompatActivity {
     private TextView description;
     private Bitmap bitmap;
 
-    // buttons
+    // Buttons
     private Button btnSave;
     private Button btnDelete;
     private Button btnTakePicture;
+    private Button btnEdit;
+    private Button btnChangePicture;
 
     // Object Variables
     private Picture currentPicture;
@@ -48,33 +53,41 @@ public class EditPictureActivity extends AppCompatActivity {
         // View Variables
         setContentView(R.layout.activity_edit_picture);
         pictureDao = new PictureDao(getApplicationContext());
-
         imageView = findViewById(R.id.imageView);
         title = findViewById(R.id.title);
         description = findViewById(R.id.description);
-
         btnSave = findViewById(R.id.btnSave);
         btnDelete = findViewById(R.id.btnDelete);
+        btnEdit = findViewById(R.id.btnEdit);
         btnTakePicture = findViewById(R.id.btnTakePicture);
-
-        // Initialize currentPicture variable
+        btnChangePicture = findViewById(R.id.btnTakePicture);
         currentPicture = (Picture) getIntent().getSerializableExtra("EXTRA_PICTURE");
+
+        // Adjusts data and display elements
+        this.toggleEdition(null);
         if (currentPicture == null || currentPicture.getId() == null) {
             this.currentPicture = new Picture();
-            btnDelete.setEnabled(false);
+            getSupportActionBar().setTitle("New Picture");
         } else {
             title.setText(currentPicture.getTitle());
+            getSupportActionBar().setTitle("Edit " + currentPicture.getTitle());
             description.setText((currentPicture.getDescription()));
             this.bitmap = BitmapFactory.decodeFile(currentPicture.getPath());
             imageView.setImageBitmap(this.bitmap);
         }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-//    ------------------------------------------------------
-//    button actions
-
+    /**
+     * This method is executed when the user takes a picture with the camera.
+     * It displays the picture taken in the bitmap square in the view.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) { // Image Captured
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
@@ -83,20 +96,25 @@ public class EditPictureActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method is executed when the left arrow in the toolbar is clicked, sending the user
+     * back to the previous page.
+     * @return
+     */
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
+    /**
+     * This method saves the picture into the local directory and saves data into database
+     * @param view
+     */
     public void save(View view) {
         // Get data from screen
         currentPicture.setTitle(this.title.getText().toString());
         currentPicture.setDescription(this.description.getText().toString());
-
-        // If title or description are invalid, do not allow saving
-        if (currentPicture.getTitle().trim().isEmpty() ||
-                currentPicture.getDescription().trim().isEmpty() ||
-                bitmap == null) {
-            Toast.makeText(getApplicationContext(), "Cannot save! Enter the title, description and image",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         try { // Save Picture data into Database
             if (currentPicture.getId() == null) { // New Picture
@@ -109,7 +127,6 @@ public class EditPictureActivity extends AppCompatActivity {
                         .toString() + ".jpg"));
                 pictureDao.update(currentPicture);
             }
-
             Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
             finish();
         } catch (IOException e) {
@@ -118,12 +135,46 @@ public class EditPictureActivity extends AppCompatActivity {
         }
     }
 
-    public void delete(View view) {
-        this.deletePictureFile(this.currentPicture.getPath());
-        pictureDao.delete(this.currentPicture);
-        finish();
+    /**
+     * This method toggles the edition by enabling and disabling the  visibility.
+     * @param view
+     */
+    public void toggleEdition(View view) {
+        if (currentPicture == null || currentPicture.getId() == null) {
+            this.btnEdit.setVisibility(View.GONE);
+            this.btnDelete.setVisibility(View.GONE);
+        } else {
+            this.btnEdit.setEnabled(this.btnSave.isEnabled());
+            this.btnSave.setEnabled(!this.btnSave.isEnabled());
+            this.title.setEnabled(!this.title.isEnabled());
+            this.btnChangePicture.setEnabled(this.title.isEnabled());
+            this.description.setEnabled(!this.description.isEnabled());
+        }
     }
 
+    /**
+     * Prompts the user for delete confirmation. If true, then deletes the image from the device and
+     * the data from the database.
+     * @param view
+     */
+    public void delete(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Confirmation")
+                .setMessage("Do you really want to delete?")
+                .setIcon(android.R.drawable.ic_delete)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        deletePictureFile(currentPicture.getPath());
+                        pictureDao.delete(currentPicture);
+                        finish();
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    /**
+     * Requests an intent of taking a picture from the camera
+     * @param view
+     */
     public void takePicture(View view) {
         Intent imageTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (imageTakeIntent.resolveActivity(getPackageManager()) != null) {
@@ -131,9 +182,13 @@ public class EditPictureActivity extends AppCompatActivity {
         }
     }
 
-//    --------------------------------------------------------
-//    util
-
+    /**
+     * Saves the picture file in the device
+     * @param imageToSave
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
     private String savePictureFile(Bitmap imageToSave, String fileName) throws IOException {
         try {
             File file = new File(this.getApplicationContext().getFilesDir(), fileName);
@@ -152,6 +207,10 @@ public class EditPictureActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Deletes the picture file in the device
+     * @param filePath
+     */
     private void deletePictureFile(String filePath) {
         File file = new File(filePath);
         file.delete();

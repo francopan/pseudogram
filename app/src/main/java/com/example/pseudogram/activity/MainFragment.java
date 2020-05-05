@@ -24,7 +24,6 @@ public class MainFragment extends Fragment {
     private static final String TAG = "FirstFragment";
     private PictureDao pictureDao;
     private List<Picture> pictures;
-
     private RecyclerView recyclerView;
 
     @Override
@@ -41,10 +40,13 @@ public class MainFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Get all images and displays in the reciclerView. This is necessary to display not only when
+     * starting, but also when data is updated and the user is visualizes the main fragment right after.
+     */
     @Override
     public void onStart() {
         super.onStart();
-
         pictures = pictureDao.getAll();
         recyclerView.setAdapter(new PictureListRecyclerViewAdapter(pictures, this.getContext()));
     }

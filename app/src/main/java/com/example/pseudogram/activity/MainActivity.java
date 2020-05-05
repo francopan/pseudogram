@@ -57,10 +57,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    @Override
-//    public void onRestart() {
-//        super.onRestart();
-//        Fragment frg = null;
-//        frg = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-//    }
 }
